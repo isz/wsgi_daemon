@@ -1,0 +1,12 @@
+[Unit]
+Description=IP to weather wsgi daemon
+After=network.target
+
+[Service]
+User=uwsgi
+Group=www-data
+WorkingDirectory=/etc/local/ip2w/
+ExecStart=/usr/sbin/uwsgi --ini ip2w_uwsgi.ini
+
+[Install]
+WantedBy=multi-user.target
