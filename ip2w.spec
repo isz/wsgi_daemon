@@ -1,3 +1,5 @@
+%global __python %{__python3}
+
 License:        BSD
 Vendor:         Otus
 Group:          PD01
@@ -11,14 +13,13 @@ BuildArch:      noarch
 Requires:       python3
 Requires:       python3-requests
 Requires:       uwsgi
-Requires:       uwsgi-plugin-python36.x86_64
+Requires:       uwsgi-plugin-python36
 Requires(post): systemd
 Requires(preun): systemd
 Requires(postun): systemd
 BuildRequires: systemd
-Requires:	
+BuildRequires: python3-devel
 Summary:  IP to weather WSGI daemon
-
 
 %description
 Homework to "Python developer" course
@@ -27,7 +28,7 @@ Git version: %{git_version} (branch: %{git_branch})
 %define __etcdir    /usr/local/etc
 %define __logdir    /val/log/
 %define __bindir    /usr/local/ip2w/
-%define __systemddir	/usr/lib/systemd/system/
+%define __systemddir    /usr/lib/systemd/system/
 %define __sockdir       /var/local/ip2w/
 
 %prep
@@ -67,6 +68,4 @@ systemctl daemon-reload
 %{__bindir}/*
 %{__systemddir}/%{name}.service
 %{__sockdir}
-# %{__sysconfigdir}
-%config(noreplace) %{__etcdir}/settings.py
-%config(noreplace) %{__etcdir}/ip2w_uwsgi.ini
+%config(noreplace) %{__etcdir}/*

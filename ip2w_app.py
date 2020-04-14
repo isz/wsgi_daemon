@@ -4,12 +4,6 @@ import requests
 import logging
 import importlib.util
 
-logging.basicConfig(
-    filename="/var/log/ip2w/ip2w.log",
-    format="[%(asctime)s] %(levelname).1s %(message)s",
-    level=logging.ERROR,
-    datefmt="%Y.%m.%d %H:%M:%S",
-)
 
 os.sys.path.append("/usr/local/etc/settings.py")
 try:
@@ -18,12 +12,15 @@ except:
     logging.error("Can't import settings")
     os.sys.exit("Can't import settings")
 
-IPINFO_TOKEN = os.environ.get("IPINFO_TOKEN") or os.sys.exit(
-    "Please set IPINFO_TOKEN variable"
+logging.basicConfig(
+    filename=settings.LOG_FILE,
+    format="[%(asctime)s] %(levelname).1s %(message)s",
+    level=logging.ERROR,
+    datefmt="%Y.%m.%d %H:%M:%S",
 )
-OPENWEATHER_KEY = os.environ.get("OPENWEATHER_KEY") or os.sys.exit(
-    "Please set OPENWEATHER_KEY variable"
-)
+
+IPINFO_TOKEN = settings.IPINFO_TOKEN
+OPENWEATHER_KEY = settings.OPENWEATHER_KEY
 
 
 def get_city(token, ip="", timeout=1):
@@ -68,7 +65,7 @@ def application(env, start_response):
     remote_addr = env.get("REMOTE_ADDR")
 
     try:
-        city = get_city(IPINFO_TOKEN, ip=remote_addr, timeout=settings.REQUEST_TIMEOUT)
+        city = get_city(IPINFO_TOKEN, remote_addr, settings.REQUEST_TIMEOUT)
         weather = get_weather(
             city,
             OPENWEATHER_KEY,
