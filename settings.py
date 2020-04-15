@@ -6,6 +6,8 @@ except:
     OPENWEATHER_KEY = ''
 
 REQUEST_TIMEOUT = 1
+REQUEST_ATTEMPT_TIMEOUT = 1
+REQUEST_ATTEMPTS = 3
 
 # https://openweathermap.org/current#multi
 LANGUAGE = 'ru' 
