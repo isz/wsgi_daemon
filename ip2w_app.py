@@ -126,15 +126,3 @@ def application(env, start_response):
         data = weather
 
     return response(status, start_response, data)
-
-
-def start_response(status, headers):
-    print(status, headers)
-
-
-if __name__ == "__main__":
-    env = {"PATH_INFO": "/", "REMOTE_ADDR": "8.8.8.8"}
-    resp = application(env, start_response)
-
-    for r in resp:
-        print(json.loads(r))
